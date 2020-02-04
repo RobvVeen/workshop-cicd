@@ -50,16 +50,30 @@ pipeline {
                 docker { image 'node:alpine' }
             }
             steps {
-                echo 'Test'
+                echo 'Test'\
+				dir('code/frontend'){
+					sh 'npm run test'
+				}
+				dir('code/backend'){
+					sh 'npm run test'
+				}
             }
         }
         stage('e2e Test') {
             steps {             
                 echo 'e2e Test'
+				 script {
+				sh 'docker-compose -f docker-compose-e2e.yml up e2e'
+				status_code = sh ( script: "docker inspect code_e2e_1 --format='{{.State.ExitCode}}'", returnStdout: true).trim();
+				if (status_code == '1'){
+				error('e2e test failed.')
+				}
+			}
             }
             post {
                 always {
                     echo 'Cleanup'
+					sh 'docker-compose -f docker-compose-e2e.yml down --rmi=all -v
                 }
             }
         }
