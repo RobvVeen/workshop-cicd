@@ -18,7 +18,7 @@ pipeline {
             }
             steps {
                 echo 'Build' 
-				sh 'npm run build'				
+				sh 'npm build'				
             }
         }
         stage('Static Analysis') {
