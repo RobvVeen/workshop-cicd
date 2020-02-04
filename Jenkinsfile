@@ -9,7 +9,12 @@ pipeline {
             }
             steps {
                 echo 'Prepare'
-				sh 'npm install'
+				dir('code/frontend'){
+					sh 'npm install'
+				}
+				dir('code/backend'){
+					sh 'npm install'
+				}
             }
         }
         stage('Build') {
@@ -17,8 +22,13 @@ pipeline {
                 docker { image 'node:alpine' }
             }
             steps {
-                echo 'Build' 	
-				sh 'npm build'
+                echo 'Build' 
+				dir('code/frontend'){
+					sh 'npm build'
+				}
+				dir('code/backend'){
+					sh 'npm build'
+				}				
             }
         }
         stage('Static Analysis') {
@@ -27,8 +37,11 @@ pipeline {
             }
             steps {
                 echo 'Analyze' 
+				dir('code/frontend'){
+					sh 'npm lint'
+				}
 				dir('code/backend'){
-					sh 'npm run lint'
+					sh 'npm lint'
 				}
             }
         }
