@@ -27,7 +27,7 @@ pipeline {
             }
             steps {
                 echo 'Analyze' 
-				sh 'npm lint'
+				sh 'npm run lint'
             }
         }
         stage('Unit Test') {
