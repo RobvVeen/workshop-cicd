@@ -28,7 +28,7 @@ pipeline {
             steps {
                 echo 'Analyze' 
 				dir('code/backend'){
-					sh 'npm lint'
+					sh 'npm run lint'
 				}
             }
         }
