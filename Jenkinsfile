@@ -27,6 +27,7 @@ pipeline {
             }
             steps {
                 echo 'Analyze' 
+				sh 'npm lint'
             }
         }
         stage('Unit Test') {
